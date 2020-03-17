@@ -1,0 +1,31 @@
+====ItemPrefix====
+=====By XPYEX=====
+==================
+
+PluginPrefix: '&b[ItemPrefix]&f >'
+##PluginPrefix项为本插件发送给玩家的信息前缀
+
+#下方为等级设置
+
+#由1开始递增等级,数量可自定义,请勿写0    0为新玩家等级"
+1: 
+- prefix: '&f初等训练师'
+#prefix项为满足该要求后给予的前缀
+
+- time: 168
+#time项为玩家需要累计在线多少小时才可满足要求
+
+- enchant: 64
+#enchant项为玩家需要累计附魔多少物品才可满足要求
+
+- craft: 600
+#craft项为玩家需要累计合成多少物品才可满足需求
+
+- mated: 32
+#mated项为玩家需要累计帮助繁殖多少动物才可满足需求
+
+- death: 10
+#death项为玩家需要死亡多少词才可满足需求
+
+- cmd: 'manuaddv <player> <prefix>'
+#cmd项为给予玩家前缀的指令,<player>为升级的玩家,<prefix>为上方prefix项,或可自行替换
