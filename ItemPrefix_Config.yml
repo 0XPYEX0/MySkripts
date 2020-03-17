@@ -3,7 +3,7 @@
 ==================
 
 PluginPrefix: '&b[ItemPrefix]&f >'
-##PluginPrefix项为本插件发送给玩家的信息前缀
+#PluginPrefix项为本插件发送给玩家的信息前缀
 
 #下方为等级设置
 
