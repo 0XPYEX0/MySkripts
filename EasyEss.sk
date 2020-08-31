@@ -1,6 +1,19 @@
 #SuperKRIPT小组
 #www.mcbbs.net
 #功能更多的Essentials
+function getAllowNumber(p:player, s: text) :: integer:
+    set {_perms::*} to all permission of {_p}
+    loop {_perms::*}:
+        if "%loop-value%" start with "%{_s}%.":
+            set {_check} to loop-value
+            replace all "%{_s}%." with "" in {_check}
+            set {_check} to {_check} parsed as integer
+            if {_check} is not integer:
+                return 0
+                stop
+            return {_check}
+            stop
+    return 0
 command /sethome [<text>]:
     trigger:
         if sender is console:
@@ -10,10 +23,13 @@ command /sethome [<text>]:
             send "&4错误: &c你没有执行此命令的权限"
             stop
         set {_homes} to size of {EasyEss::data::playerdata::%sender%::homes::*}
-        add 1 to {_homes}
-        if sender doesn't have permission "essentials.sethome.%{_homes}%" or "easyess.sethome.%{_homes}%":
-            send "&4错误: &c抱歉，你设置的家的数量已超过你可创建的数量"
-            stop
+        set {_check} to {_homes} + 1
+        set {_allow} to getAllowNumber(sender, "essentials.sethome")
+        if {_allow} < {_check}:
+            set {_allow} to getAllowNumber(sender, "easyess.sethome")
+            if {_allow} < {_check}:
+                send "&4错误: &c你设置的家的数量已超出允许的数量"
+                stop
         if arg-1 is not set:
             set {_loc} to location of sender
             add {_loc} to {EasyEss::data::playerdata::%sender%::homes::*}
