@@ -1,0 +1,73 @@
+#SuperKRIPT小组
+#www.mcbbs.net
+#功能更多的Essentials
+command /sethome [<text>]:
+    trigger:
+        if sender is console:
+            send "&4错误: &c该命令仅允许玩家使用"
+            stop
+        if sender doesn't have permission "essentials.sethome" or "easyess.sethome":
+            send "&4错误: &c你没有执行此命令的权限"
+            stop
+        set {_homes} to size of {EasyEss::data::playerdata::%sender%::homes::*}
+        add 1 to {_homes}
+        if sender doesn't have permission "essentials.sethome.%{_homes}%" or "easyess.sethome.%{_homes}%":
+            send "&4错误: &c抱歉，你设置的家的数量已超过你可创建的数量"
+            stop
+        if arg-1 is not set:
+            set {_loc} to location of sender
+            add {_loc} to {EasyEss::data::playerdata::%sender%::homes::*}
+            loop {EasyEss::data::playerdata::%sender%::homes::*}:
+                if loop-value is {_loc}:
+                    set {_string} to loop-index
+                    stop loop
+            send "&6已成功设置你的家: &f%{_string}%"
+            stop
+        if {EasyEss::data::playerdata::%sender%::homes::%arg-1%} is set:
+            send "&4错误: &c你当前已有一个重复名字的家.&d如需覆盖，请使用 &f/delhome %arg-1% &d后再执行本命令"
+            stop
+        set {EasyEss::data::playerdata::%sender%::homes::%arg-1%} to location of sender
+        send "&6已成功设置你的家: &f%arg-1%"
+        stop
+command /home [<text>]:
+    trigger:
+        if sender is console:
+            send "&4错误: &c该命令仅允许玩家使用"
+            stop
+        if sender doesn't have permission "essentials.home" or "easyess.home":
+            send "&4错误: &c你没有执行此命令的权限"
+            stop
+        if arg-1 is not set:
+            loop {EasyEss::data::playerdata::%sender%::homes::*}:
+                teleport sender to loop-value
+                send "&6已将你传送至家: &f%loop-index%"
+                stop
+            send "&4错误: &c你还没有设置过家"
+            stop
+        if {EasyEss::data::playerdata::%sender%::homes::%arg-1%} is not set:
+            send "&4错误: &c家 &f%arg-1% &c暂未被设置"
+            stop
+        teleport sender to {EasyEss::data::playerdata::%sender%::homes::%arg-1%}
+        send "&6已将你传送至家: %arg-1%"
+        stop
+command /delhome [<text>] [<offline player>]:
+    trigger:
+        if sender is console:
+            send "&4错误: &c该命令仅允许玩家使用"
+            stop
+        if sender doesn't have permission "essentials.home" or "easyess.home":
+            send "&4错误: &c你没有执行此命令的权限"
+            stop
+        if arg-1 is not set:
+            send "&4错误: &c我不清楚你想要删除哪个家？"
+            stop
+        if arg-2 is set:
+            if sender doesn't have permission "essentials.admin" or "easyess.admin":
+                send "&4错误: &c你没有执行此命令的权限"
+                stop
+            delete {EasyEss::data::playerdata::%arg-2%::homes::%arg-1%}
+            send "&6已删除玩家 &f%arg-2% &6的家: %arg-1%"
+            stop
+        delete {EasyEss::data::playerdata::%sender%::homes::%arg-1%}
+        send "&6已删除你的家: %arg-1%"
+        stop
