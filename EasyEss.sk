@@ -54,11 +54,13 @@ command /home [<text>]:
             send "&4错误: &c你没有执行此命令的权限"
             stop
         if arg-1 is not set:
+            send "&6为你列出你的家:"
             loop {EasyEss::data::playerdata::%sender%::homes::*}:
-                teleport sender to loop-value
-                send "&6已将你传送至家: &f%loop-index%"
-                stop
-            send "&4错误: &c你还没有设置过家"
+                if {_string} is not set:
+                    set {_string} to loop-index
+                    continue
+                set {_string} to "%{_string}%, %loop-index%"
+            send "&f%{_string}%"
             stop
         if {EasyEss::data::playerdata::%sender%::homes::%arg-1%} is not set:
             send "&4错误: &c家 &f%arg-1% &c暂未被设置"
